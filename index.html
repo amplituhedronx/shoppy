@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoppy</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
+
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --success: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 360px;
+            border: 1px solid var(--border);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            margin: 0 0 4px;
+            color: var(--accent);
+        }
+
+        .login-header p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #334155;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .login-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        .error {
+            color: #f87171;
+            font-size: 13px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* Main App */
+        .header {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+        }
+
+        .user {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #3f1f1f;
+            color: #f87171;
+        }
+
+        .main {
+            padding: 20px 0 40px;
+        }
+
+        .add-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .add-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .add-input {
+            flex: 1;
+            padding: 14px 18px;
+            background: #334155;
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+        }
+
+        .add-input:focus {
+            border-color: var(--accent);
+        }
+
+        .add-btn {
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 9999px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        .list-card {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .shopping-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            gap: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .shopping-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .checkbox {
+            width: 26px;
+            height: 26px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox.completed {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .item-text {
+            font-size: 17px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .shopping-item.completed .item-text {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .delete-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .delete-btn:hover {
+            background: #3f1f1f;
+            color: #f87171;
+        }
+
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .empty-state p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .stats {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-screen">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        shoppy
+                    </h1>
+                    <p>Simple shopping list</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password">
+                </div>
+
+                <button onclick="login()" class="login-btn">Sign in</button>
+                <div id="login-error" class="error" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" style="display: none;">
+        <!-- Header -->
+        <div class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <div class="logo">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            shoppy
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span class="user" id="username-display"></span>
+                        <button onclick="logout()" class="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container main">
+            
+            <!-- Add Item -->
+            <div class="add-section">
+                <div class="add-form">
+                    <input id="item-input" type="text" class="add-input" 
+                           placeholder="What do you need?" 
+                           onkeypress="if (event.key === 'Enter') addItem()">
+                    <button onclick="addItem()" class="add-btn">+</button>
+                </div>
+            </div>
+
+            <!-- Shopping List -->
+            <div class="list-card">
+                <div id="shopping-list"></div>
+                
+                <div id="empty-state" class="empty-state" style="display: none;">
+                    <h3>Your list is empty</h3>
+                    <p>Add your first item above</p>
+                </div>
+            </div>
+
+            <div class="stats" id="stats"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CONFIG: Users ====================
+        const USERS = {
+            "MHU": "mhu123",
+            "CBR": "cbr123"
+        };
+
+        let currentUser = null;
+        let items = [];
+
+        // ==================== AUTH ====================
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (USERS[username] && USERS[username] === password) {
+                currentUser = username;
+                localStorage.setItem('shoppy_user', username);
+                showMainApp();
+            } else {
+                const errorEl = document.getElementById('login-error');
+                errorEl.textContent = 'Invalid username or password';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('shoppy_user');
+            location.reload();
+        }
+
+        function checkLogin() {
+            const savedUser = localStorage.getItem('shoppy_user');
+            if (savedUser && USERS[savedUser]) {
+                currentUser = savedUser;
+                showMainApp();
+            } else {
+                showLoginScreen();
+            }
+        }
+
+        function showLoginScreen() {
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('main-app').style.display = 'none';
+        }
+
+        function showMainApp() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            document.getElementById('username-display').textContent = currentUser;
+            loadItems();
+            renderItems();
+        }
+
+        // ==================== DATA (Shared list for all users) ====================
+        const STORAGE_KEY = 'shoppy_items_shared';
+
+        function loadItems() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            items = saved ? JSON.parse(saved) : [];
+        }
+
+        function saveItems() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        }
+
+        // ==================== RENDER ====================
+        function renderItems() {
+            const container = document.getElementById('shopping-list');
+            const empty = document.getElementById('empty-state');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+            }
+
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = `shopping-item ${item.completed ? 'completed' : ''}`;
+
+                div.innerHTML = `
+                    <div class="item-content">
+                        <div class="checkbox ${item.completed ? 'completed' : ''}" 
+                             onclick="toggleItem(${index})">
+                            ${item.completed ? '✓' : ''}
+                        </div>
+                        <span class="item-text">${item.text}</span>
+                    </div>
+                    <button class="delete-btn" onclick="deleteItem(${index})" title="Delete item">🗑️</button>
+                `;
+                container.appendChild(div);
+            });
+
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = items.length;
+            const completed = items.filter(i => i.completed).length;
+            const left = total - completed;
+
+            document.getElementById('stats').innerHTML = 
+                `${left} left • ${completed} bought`;
+        }
+
+        // ==================== ACTIONS ====================
+        function addItem() {
+            const input = document.getElementById('item-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            items.unshift({
+                id: Date.now(),
+                text: text,
+                completed: false
+            });
+
+            saveItems();
+            renderItems();
+            input.value = '';
+        }
+
+        function toggleItem(index) {
+            items[index].completed = !items[index].completed;
+            saveItems();
+            renderItems();
+        }
+
+        function deleteItem(index) {
+            if (confirm('Delete this item?')) {
+                items.splice(index, 1);
+                saveItems();
+                renderItems();
+            }
+        }
+
+        // ==================== INIT ====================
+        function init() {
+            checkLogin();
+
+            const pwField = document.getElementById('password');
+            if (pwField) {
+                pwField.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') login();
+                });
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
