@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: shoppy
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      # === Set your own strong passwords here ===
+      - key: MHU_PASSWORD
+        value: ChangeThisStrongPassword123!
+      - key: CBR_PASSWORD
+        value: ChangeThisStrongPassword456!
